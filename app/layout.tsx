@@ -27,6 +27,8 @@ export default function RootLayout({
         <meta property="og:title" content="めいちゃんのためのポモドーロ" />
         <meta property="og:description" content="わがいとこ、めいちゃんのために用意した勉強用ポモドーロタイマーです。" />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://pomodoro-timer-for-children.vercel.app/" />
+        <meta property="og:image" content="https://pomodoro-timer-for-children.vercel.app/ogp.png" />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
