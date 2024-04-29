@@ -16,6 +16,7 @@ export default function Home() {
   );
   const [isStudying, setIsStudying] = useState<boolean>(true);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  // const bellAudio = new Audio("/bell.mp3");
 
   // 5分カウントダウンタイマー
   useEffect(() => {
@@ -28,8 +29,7 @@ export default function Home() {
             setCurrentTime(initialStudyTime);
           }
           setIsStudying((prev) => !prev);
-          const bellAudio = new Audio("/bell.mp3");
-          bellAudio.play();
+          // bellAudio.play();
         } else {
           setCurrentTime((prev) => prev - 1);
         }
@@ -39,7 +39,14 @@ export default function Home() {
     return () => {
       clearInterval(timerId);
     };
-  }, [isTimerRunning, currentTime, isStudying, initialStudyTime, initialBreakTime]);
+  }, [
+    isTimerRunning,
+    currentTime,
+    isStudying,
+    initialStudyTime,
+    initialBreakTime,
+    // bellAudio,
+  ]);
 
   return (
     <main className={styles.main}>
@@ -108,6 +115,13 @@ export default function Home() {
       {isTimerRunning && !isStudying && (
         <Image height={250} src="/image.png" alt="JO1の写真" />
       )}
+
+      <audio controls>
+        <source src="/bell.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      {/* {isTimerRunning && !isStudying && <audio controls src="/bell.mp3" />} */}
 
       {/* <a href="/result">go to result</a> */}
     </main>
