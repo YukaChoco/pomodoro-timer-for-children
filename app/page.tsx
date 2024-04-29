@@ -8,8 +8,8 @@ import useAudio from "./hooks/useAudio";
 
 export default function Home() {
   // タイマーの初期値を5分に設定する
-  const [initialStudyMinute, setInitialStudyMinute] = useState<number>(0.1);
-  const [initialBreakMinute, setInitialBreakMinute] = useState<number>(0.3);
+  const [initialStudyMinute, setInitialStudyMinute] = useState<number>(5);
+  const [initialBreakMinute, setInitialBreakMinute] = useState<number>(5);
   const initialStudyTime = initialStudyMinute * 60;
   const initialBreakTime = initialBreakMinute * 60;
   const [currentTime, setCurrentTime] = useState<number>(
