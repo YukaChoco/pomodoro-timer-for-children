@@ -52,22 +52,26 @@ export default function Home() {
             <label htmlFor="study-minute">勉強時間</label>
             <input
               type="number"
+              style={{ width: "8rem",fontSize: "2rem", textAlign: "center", margin: "0 1rem"}}
               value={initialStudyMinute}
               onChange={(e) => setInitialStudyMinute(Number(e.target.value))}
               name="study-minute"
               id="study-minute"
             />
+            分
           </div>
 
           <div className="break-minute">
             <label htmlFor="break-minute">休憩時間</label>
             <input
               type="number"
+              style={{ width: "8rem",fontSize: "2rem", textAlign: "center", margin: "0 1rem"}}
               value={initialBreakMinute}
               onChange={(e) => setInitialBreakMinute(Number(e.target.value))}
               name="break-minute"
               id="break-minute"
             />
+            分
           </div>
         </div>
       )}
