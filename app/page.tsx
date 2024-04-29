@@ -15,6 +15,7 @@ export default function Home() {
   );
   const [isStudying, setIsStudying] = useState<boolean>(true);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const bellAudio = new Audio("/bell.mp3");
 
   // 5分カウントダウンタイマー
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function Home() {
             setCurrentTime(initialStudyTime);
           }
           setIsStudying((prev) => !prev);
+          bellAudio.play();
         } else {
           setCurrentTime((prev) => prev - 1);
         }
