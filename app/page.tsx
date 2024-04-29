@@ -8,8 +8,8 @@ import useAudio from "./hooks/useAudio";
 
 export default function Home() {
   // タイマーの初期値を5分に設定する
-  const [initialStudyMinute, setInitialStudyMinute] = useState<number>(5);
-  const [initialBreakMinute, setInitialBreakMinute] = useState<number>(5);
+  const [initialStudyMinute, setInitialStudyMinute] = useState<number>(0.1);
+  const [initialBreakMinute, setInitialBreakMinute] = useState<number>(0.3);
   const initialStudyTime = initialStudyMinute * 60;
   const initialBreakTime = initialBreakMinute * 60;
   const [currentTime, setCurrentTime] = useState<number>(
@@ -115,17 +115,8 @@ export default function Home() {
         </button>
       )}
       {isTimerRunning && !isStudying && (
-        <Image height={250} src="/image.png" alt="JO1の写真" />
+        <Image width={450} height={300} src="/image.png" alt="JO1の写真" />
       )}
-
-      {/* <audio controls>
-        <source src="/bell.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
-
-      <audio controls src="/bell.mp3" /> */}
-
-      {/* <a href="/result">go to result</a> */}
     </main>
   );
 }
