@@ -6,9 +6,13 @@ import styles from "./page.module.css";
 
 export default function Home() {
   // タイマーの初期値を5分に設定する
-  const [initialMinute, setInitialMinute] = useState<number>(5);
-  const initialTime = initialMinute * 60;
-  const [currentTime, setCurrentTime] = useState<number>(initialMinute * 60);
+  const [initialStudyMinute, setInitialStudyMinute] = useState<number>(5);
+  const [initialBreakMinute, setInitialBreakMinute] = useState<number>(5);
+  const initialStudyTime = initialStudyMinute * 60;
+  const initialBreakTime = initialBreakMinute * 60;
+  const [currentTime, setCurrentTime] = useState<number>(
+    initialStudyMinute * 60
+  );
   const [isStudying, setIsStudying] = useState<boolean>(true);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
 
@@ -19,7 +23,11 @@ export default function Home() {
     const timerId = setInterval(() => {
       if (isTimerRunning) {
         if (currentTime <= 0) {
-          setCurrentTime(initialTime);
+          if (isStudying) {
+            setCurrentTime(initialBreakTime);
+          } else {
+            setCurrentTime(initialStudyTime);
+          }
           setIsStudying((prev) => !prev);
           console.log("change");
         } else {
@@ -39,11 +47,29 @@ export default function Home() {
       <Header />
       {!isTimerRunning && (
         // タイマーの初期値を入力する
-        <input
-          type="number"
-          value={initialMinute}
-          onChange={(e) => setInitialMinute(Number(e.target.value))}
-        />
+        <div>
+          <div className="study-minute">
+            <label htmlFor="study-minute">勉強時間</label>
+            <input
+              type="number"
+              value={initialStudyMinute}
+              onChange={(e) => setInitialStudyMinute(Number(e.target.value))}
+              name="study-minute"
+              id="study-minute"
+            />
+          </div>
+
+          <div className="break-minute">
+            <label htmlFor="break-minute">休憩時間</label>
+            <input
+              type="number"
+              value={initialBreakMinute}
+              onChange={(e) => setInitialBreakMinute(Number(e.target.value))}
+              name="break-minute"
+              id="break-minute"
+            />
+          </div>
+        </div>
       )}
       {isTimerRunning && (
         <Timer currentTime={currentTime} isStudying={isStudying} />
@@ -58,7 +84,7 @@ export default function Home() {
         <button
           onClick={() => {
             setIsTimerRunning((pre) => !pre);
-            setCurrentTime(initialTime);
+            setCurrentTime(initialStudyTime);
           }}
         >
           勉強を始める
