@@ -52,7 +52,12 @@ export default function Home() {
             <label htmlFor="study-minute">勉強時間</label>
             <input
               type="number"
-              style={{ width: "8rem",fontSize: "2rem", textAlign: "center", margin: "0 1rem"}}
+              style={{
+                width: "8rem",
+                fontSize: "2rem",
+                textAlign: "center",
+                margin: "0 1rem",
+              }}
               value={initialStudyMinute}
               onChange={(e) => setInitialStudyMinute(Number(e.target.value))}
               name="study-minute"
@@ -65,7 +70,12 @@ export default function Home() {
             <label htmlFor="break-minute">休憩時間</label>
             <input
               type="number"
-              style={{ width: "8rem",fontSize: "2rem", textAlign: "center", margin: "0 1rem"}}
+              style={{
+                width: "8rem",
+                fontSize: "2rem",
+                textAlign: "center",
+                margin: "0 1rem",
+              }}
               value={initialBreakMinute}
               onChange={(e) => setInitialBreakMinute(Number(e.target.value))}
               name="break-minute"
@@ -86,6 +96,8 @@ export default function Home() {
         )
       ) : (
         <button
+          // hover時のスタイルを設定
+          className={styles.button}
           onClick={() => {
             setIsTimerRunning((pre) => !pre);
             setCurrentTime(initialStudyTime);
