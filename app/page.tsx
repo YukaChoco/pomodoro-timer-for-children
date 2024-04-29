@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Timer from "./components/Timer";
 import styles from "./page.module.css";
+import Image from "next/image";
 
 export default function Home() {
   // タイマーの初期値を5分に設定する
@@ -105,7 +106,7 @@ export default function Home() {
         </button>
       )}
       {isTimerRunning && !isStudying && (
-        <img height={250} src="/image.png" alt="JO1の写真" />
+        <Image height={250} src="/image.png" alt="JO1の写真" />
       )}
 
       {/* <a href="/result">go to result</a> */}
