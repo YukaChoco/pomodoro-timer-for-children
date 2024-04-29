@@ -55,69 +55,71 @@ export default function Home() {
       <Header />
       {!isTimerRunning && (
         // タイマーの初期値を入力する
-        <div>
-          <div className="study-minute">
-            <label htmlFor="study-minute">勉強時間</label>
-            <input
-              type="number"
-              style={{
-                width: "8rem",
-                fontSize: "2rem",
-                textAlign: "center",
-                margin: "0 1rem",
-              }}
-              value={initialStudyMinute}
-              min={0.1}
-              max={60}
-              onChange={(e) => setInitialStudyMinute(Number(e.target.value))}
-              name="study-minute"
-              id="study-minute"
-            />
-            分
-          </div>
-
-          <div className="break-minute">
-            <label htmlFor="break-minute">休憩時間</label>
-            <input
-              type="number"
-              style={{
-                width: "8rem",
-                fontSize: "2rem",
-                textAlign: "center",
-                margin: "0 1rem",
-              }}
-              value={initialBreakMinute}
-              min={0.1}
-              max={60}
-              onChange={(e) => setInitialBreakMinute(Number(e.target.value))}
-              name="break-minute"
-              id="break-minute"
-            />
-            分
-          </div>
-        </div>
-      )}
-      {isTimerRunning && (
-        <Timer currentTime={currentTime} isStudying={isStudying} />
-      )}
-      {isTimerRunning ? (
-        isStudying ? (
-          <div>勉強中！頑張れめいちゃん！</div>
-        ) : (
-          <div>〜休憩中〜</div>
-        )
-      ) : (
-        <button
-          // hover時のスタイルを設定
-          className={styles.button}
-          onClick={() => {
+        <form
+          className={styles.form}
+          onSubmit={() => {
             setIsTimerRunning((pre) => !pre);
             setCurrentTime(initialStudyTime);
           }}
         >
-          勉強を始める
-        </button>
+          <div />
+
+          <div>
+            <div className="study-minute">
+              <label htmlFor="study-minute">勉強時間</label>
+              <input
+                type="number"
+                style={{
+                  width: "8rem",
+                  fontSize: "2rem",
+                  textAlign: "center",
+                  margin: "0 1rem",
+                }}
+                value={initialStudyMinute}
+                min={1}
+                max={60}
+                onChange={(e) => setInitialStudyMinute(Number(e.target.value))}
+                name="study-minute"
+                id="study-minute"
+              />
+              分
+            </div>
+
+            <div className="break-minute">
+              <label htmlFor="break-minute">休憩時間</label>
+              <input
+                type="number"
+                style={{
+                  width: "8rem",
+                  fontSize: "2rem",
+                  textAlign: "center",
+                  margin: "0 1rem",
+                }}
+                value={initialBreakMinute}
+                min={1}
+                max={60}
+                onChange={(e) => setInitialBreakMinute(Number(e.target.value))}
+                name="break-minute"
+                id="break-minute"
+              />
+              分
+            </div>
+          </div>
+
+          <button type="submit" className={styles.button}>
+            勉強を始める
+          </button>
+        </form>
       )}
+      {isTimerRunning && (
+        <Timer currentTime={currentTime} isStudying={isStudying} />
+      )}
+      {isTimerRunning &&
+        (isStudying ? (
+          <div>勉強中！頑張れめいちゃん！</div>
+        ) : (
+          <div>〜休憩中〜</div>
+        ))}
       {isTimerRunning && !isStudying && (
         <Image width={450} height={300} src="/image.png" alt="JO1の写真" />
       )}
