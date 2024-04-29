@@ -67,6 +67,8 @@ export default function Home() {
                 margin: "0 1rem",
               }}
               value={initialStudyMinute}
+              min={0.1}
+              max={60}
               onChange={(e) => setInitialStudyMinute(Number(e.target.value))}
               name="study-minute"
               id="study-minute"
@@ -85,6 +87,8 @@ export default function Home() {
                 margin: "0 1rem",
               }}
               value={initialBreakMinute}
+              min={0.1}
+              max={60}
               onChange={(e) => setInitialBreakMinute(Number(e.target.value))}
               name="break-minute"
               id="break-minute"
