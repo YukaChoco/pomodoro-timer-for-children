@@ -6,8 +6,9 @@ import styles from "./page.module.css";
 
 export default function Home() {
   // タイマーの初期値を5分に設定する
-  const initialTime = 1 * 10;
-  const [currentTime, setCurrentTime] = useState<number>(initialTime);
+  const [initialMinute, setInitialMinute] = useState<number>(5);
+  const initialTime = initialMinute * 60;
+  const [currentTime, setCurrentTime] = useState<number>(initialMinute * 60);
   const [isStudying, setIsStudying] = useState<boolean>(true);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
 
@@ -36,7 +37,17 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <Header />
-      <Timer currentTime={currentTime} isStudying={isStudying} />
+      {!isTimerRunning && (
+        // タイマーの初期値を入力する
+        <input
+          type="number"
+          value={initialMinute}
+          onChange={(e) => setInitialMinute(Number(e.target.value))}
+        />
+      )}
+      {isTimerRunning && (
+        <Timer currentTime={currentTime} isStudying={isStudying} />
+      )}
       {isTimerRunning ? (
         isStudying ? (
           <div>勉強中！頑張れめいちゃん！</div>
@@ -44,7 +55,12 @@ export default function Home() {
           <div>〜休憩中〜</div>
         )
       ) : (
-        <button onClick={() => setIsTimerRunning((pre) => !pre)}>
+        <button
+          onClick={() => {
+            setIsTimerRunning((pre) => !pre);
+            setCurrentTime(initialTime);
+          }}
+        >
           勉強を始める
         </button>
       )}
