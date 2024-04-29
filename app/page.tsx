@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Timer from "./components/Timer";
 import styles from "./page.module.css";
 import Image from "next/image";
+import useAudio from "./hooks/useAudio";
 
 export default function Home() {
   // タイマーの初期値を5分に設定する
@@ -16,7 +17,8 @@ export default function Home() {
   );
   const [isStudying, setIsStudying] = useState<boolean>(true);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-  // const bellAudio = new Audio("/bell.mp3");
+  // useAudioを使って音声を再生する
+  const playBell = useAudio();
 
   // 5分カウントダウンタイマー
   useEffect(() => {
@@ -29,7 +31,7 @@ export default function Home() {
             setCurrentTime(initialStudyTime);
           }
           setIsStudying((prev) => !prev);
-          // bellAudio.play();
+          playBell();
         } else {
           setCurrentTime((prev) => prev - 1);
         }
@@ -116,12 +118,12 @@ export default function Home() {
         <Image height={250} src="/image.png" alt="JO1の写真" />
       )}
 
-      <audio controls>
+      {/* <audio controls>
         <source src="/bell.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 
-      {/* {isTimerRunning && !isStudying && <audio controls src="/bell.mp3" />} */}
+      <audio controls src="/bell.mp3" /> */}
 
       {/* <a href="/result">go to result</a> */}
     </main>
