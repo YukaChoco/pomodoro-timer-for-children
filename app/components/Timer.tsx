@@ -8,9 +8,9 @@ export default function Timer({
   isStudying: boolean;
 }) {
   const colorStyles = {
-    border: `4px solid ${isStudying ? "rgb(6, 73, 20)" : "rgb(6, 73, 20)"}`,
-    backgroundColor: isStudying ? "rgb(6, 73, 20)" : "rgb(192, 236, 197)",
-    color: isStudying ? "white" : "rgb(6, 73, 20)",
+    border: `4px solid ${isStudying ? "rgb(62, 5, 90)" : "rgb(62, 5, 90)"}`,
+    backgroundColor: isStudying ? "rgb(62, 5, 90)" : "rgb(220, 204, 228)",
+    color: isStudying ? "white" : "rgb(62, 5, 90)",
   };
 
   return (

@@ -9,8 +9,8 @@ body {
   overflow-x: hidden;
 }
 body {
-  color: rgb(6, 73, 20);
-  background: rgb(220, 240, 222);
+  color: rgb(62, 5, 90);
+  background: rgb(220, 204, 228);
 }
 
 main{
@@ -22,8 +22,7 @@ h1{
 }
 
 a {
-  color: inherit;
-  color: rgb(5, 90, 24);
+  color: rgb(62, 5, 90);
   text-decoration: none;
 }
 

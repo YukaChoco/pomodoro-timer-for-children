@@ -11,18 +11,18 @@
 .button {
   color: white;
   padding: 12px 24px;
-  border: 4px solid rgb(5, 90, 24);
+  border: 4px solid rgb(62, 5, 90);
   border-radius: 16px;
-  background-color: rgb(5, 90, 24);
+  background-color: rgb(62, 5, 90);
   font-size: 2rem;
 }
 .button:hover {
-  background-color: rgb(6, 73, 20);
-  border-color: rgb(6, 73, 20);
+  background-color: rgb(62, 5, 90);
+  border-color: rgb(62, 5, 90);
 }
 .button:active {
-  background-color: rgb(36, 101, 50);
-  border-color: rgb(36, 101, 50);
+  background-color: rgb(62, 5, 90);
+  border-color: rgb(62, 5, 90);
 }
 
 .form {
