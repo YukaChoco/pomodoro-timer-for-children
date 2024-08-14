@@ -16,7 +16,7 @@ export default function Timer({
   return (
     <div style={colorStyles} className={styles.timer}>
       <span>
-        {Math.floor(currentTime / 600) < 10
+        {Math.floor(currentTime / 60) < 10
           ? "0"
           : Math.floor(currentTime / 600)}
       </span>
