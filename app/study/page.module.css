@@ -1,0 +1,34 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+  font-size: 2rem;
+}
+
+.button {
+  color: white;
+  padding: 12px 24px;
+  border: 4px solid rgb(62, 5, 90);
+  border-radius: 16px;
+  background-color: rgb(62, 5, 90);
+  font-size: 2rem;
+}
+.button:hover {
+  background-color: rgb(62, 5, 90);
+  border-color: rgb(62, 5, 90);
+}
+.button:active {
+  background-color: rgb(62, 5, 90);
+  border-color: rgb(62, 5, 90);
+}
+
+.form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+}

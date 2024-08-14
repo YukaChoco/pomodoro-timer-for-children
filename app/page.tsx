@@ -1,135 +1,78 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Header from "./components/Header";
-import Timer from "./components/Timer";
 import styles from "./page.module.css";
-import Image from "next/image";
-import useAudio from "./hooks/useAudio";
+import Link from "next/link";
 
 export default function Home() {
-  // タイマーの初期値を5分に設定する
-  const [initialStudyMinute, setInitialStudyMinute] = useState<number>(5);
-  const [initialBreakMinute, setInitialBreakMinute] = useState<number>(5);
-  const initialStudyTime = initialStudyMinute * 60;
-  const initialBreakTime = initialBreakMinute * 60;
-  const [currentTime, setCurrentTime] = useState<number>(
-    initialStudyMinute * 60
-  );
-  const [isStudying, setIsStudying] = useState<boolean>(true);
-  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
-  // useAudioを使って音声を再生する
-  const playBell = useAudio();
+  const [formData, setFormData] = useState({
+    studyMinute: "5",
+    breakMinute: "5",
+  });
+  const router = useRouter();
 
-  // 5分カウントダウンタイマー
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      if (isTimerRunning) {
-        if (currentTime <= 0) {
-          if (isStudying) {
-            setCurrentTime(initialBreakTime);
-          } else {
-            setCurrentTime(initialStudyTime);
-          }
-          setIsStudying((prev) => !prev);
-          playBell();
-        } else {
-          setCurrentTime((prev) => prev - 1);
-        }
-      }
-    }, 1000);
+  const handleStudyMinute = (e: any) => {
+    const { value } = e.target;
+    setFormData((prevFormData) => ({ ...prevFormData, studyMinute: value }));
+  };
 
-    return () => {
-      clearInterval(timerId);
-    };
-  }, [
-    isTimerRunning,
-    currentTime,
-    isStudying,
-    initialStudyTime,
-    initialBreakTime,
-    // bellAudio,
-  ]);
+  const handleBreakMinute = (e: any) => {
+    const { value } = e.target;
+    setFormData((prevFormData) => ({ ...prevFormData, breakMinute: value }));
+  };
 
   return (
     <main className={styles.main}>
       <Header />
-      {!isTimerRunning && (
-        // タイマーの初期値を入力する
-        <form
-          className={styles.form}
-          onSubmit={() => {
-            setIsTimerRunning((pre) => !pre);
-            setCurrentTime(initialStudyTime);
-          }}
-        >
-          <div />
 
-          <div>
-            <div className="study-minute">
-              <label htmlFor="study-minute">勉強時間</label>
-              <input
-                type="number"
-                style={{
-                  width: "8rem",
-                  fontSize: "2rem",
-                  textAlign: "center",
-                  margin: "0 1rem",
-                }}
-                value={initialStudyMinute}
-                min={1}
-                max={60}
-                onChange={(e) => setInitialStudyMinute(Number(e.target.value))}
-                name="study-minute"
-                id="study-minute"
-              />
-              分
-            </div>
+      <form className={styles.form}>
+        <div />
 
-            <div className="break-minute">
-              <label htmlFor="break-minute">休憩時間</label>
-              <input
-                type="number"
-                style={{
-                  width: "8rem",
-                  fontSize: "2rem",
-                  textAlign: "center",
-                  margin: "0 1rem",
-                }}
-                value={initialBreakMinute}
-                min={1}
-                max={60}
-                onChange={(e) => setInitialBreakMinute(Number(e.target.value))}
-                name="break-minute"
-                id="break-minute"
-              />
-              分
-            </div>
+        <div>
+          <div className="studyMinute">
+            <label htmlFor="studyMinute">勉強時間</label>
+            <input
+              type="number"
+              style={{
+                width: "8rem",
+                fontSize: "2rem",
+                textAlign: "center",
+                margin: "0 1rem",
+              }}
+              min={1}
+              max={60}
+              value={formData.studyMinute}
+              onChange={handleStudyMinute}
+              name="studyMinute"
+              id="studyMinute"
+            />
+            分
           </div>
 
-          <button
-            type="submit"
-            className={styles.button}
-            onClick={() => {
-              setIsTimerRunning(true);
-              setCurrentTime(initialStudyMinute * 60);
-            }}
-          >
-            勉強を始める
-          </button>
-        </form>
-      )}
-      {isTimerRunning && (
-        <Timer currentTime={currentTime} isStudying={isStudying} />
-      )}
-      {isTimerRunning &&
-        (isStudying ? (
-          <div>勉強中！頑張れめいちゃん！</div>
-        ) : (
-          <div>〜休憩中〜</div>
-        ))}
-      {isTimerRunning && !isStudying && (
-        <Image width={450} height={300} src="/image.png" alt="JO1の写真" />
-      )}
+          <div className="breakMinute">
+            <label htmlFor="breakMinute">休憩時間</label>
+            <input
+              type="number"
+              style={{
+                width: "8rem",
+                fontSize: "2rem",
+                textAlign: "center",
+                margin: "0 1rem",
+              }}
+              min={1}
+              max={60}
+              value={formData.breakMinute}
+              onChange={handleBreakMinute}
+              name="breakMinute"
+              id="breakMinute"
+            />
+            分
+          </div>
+        </div>
+
+        <Link href={{ pathname: "/study", query: formData }}>勉強を始める</Link>
+      </form>
     </main>
   );
 }
