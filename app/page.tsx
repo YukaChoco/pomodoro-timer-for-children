@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    studyMinute: "5",
+    studyMinute: "25",
     breakMinute: "5",
   });
 
@@ -38,7 +38,7 @@ export default function Home() {
                 textAlign: "center",
                 margin: "0 1rem",
               }}
-              min={1}
+              min={25}
               max={60}
               value={formData.studyMinute}
               onChange={handleStudyMinute}
