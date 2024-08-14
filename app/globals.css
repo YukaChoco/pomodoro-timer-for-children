@@ -13,6 +13,10 @@ body {
   background: rgb(220, 240, 222);
 }
 
+h1{
+  font-family: "Archivo Black", sans-serif;
+}
+
 a {
   color: inherit;
   color: rgb(5, 90, 24);

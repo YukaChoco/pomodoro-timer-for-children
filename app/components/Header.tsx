@@ -1,3 +1,3 @@
 export default function Header() {
-  return <div>PomodoroTimer</div>;
+  return <h1>PomodoroTimer</h1>;
 }
