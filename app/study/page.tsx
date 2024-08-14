@@ -29,6 +29,8 @@ function HomeContent() {
   // タイマーの初期値を5分に設定する
   const initialStudyTime = initialStudyMinute * 60;
   const initialBreakTime = initialBreakMinute * 60;
+
+  const [totalStudyTime, setTotalStudyTime] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(
     initialStudyMinute * 60
   );
@@ -56,6 +58,17 @@ function HomeContent() {
       clearInterval(timerId);
     };
   }, [currentTime, isStudying]);
+
+  useEffect(() => {
+    if (!isStudying) {
+      setTotalStudyTime((prev) => prev + initialStudyMinute);
+      console.log(
+        `${initialStudyMinute}分間勉強を頑張りました！\n合計${
+          totalStudyTime + initialStudyMinute
+        }分頑張りました！`
+      );
+    }
+  }, [isStudying]);
 
   return (
     <main className={styles.main}>
