@@ -71,7 +71,12 @@ export default function Home() {
           </div>
         </div>
 
-        <Link href={{ pathname: "/study", query: formData }}>勉強を始める</Link>
+        <Link
+          className={styles.button}
+          href={{ pathname: "/study", query: formData }}
+        >
+          勉強を始める
+        </Link>
       </form>
     </main>
   );
