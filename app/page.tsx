@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Header from "./components/Header";
 import styles from "./page.module.css";
@@ -10,7 +9,6 @@ export default function Home() {
     studyMinute: "5",
     breakMinute: "5",
   });
-  const router = useRouter();
 
   const handleStudyMinute = (e: any) => {
     const { value } = e.target;
