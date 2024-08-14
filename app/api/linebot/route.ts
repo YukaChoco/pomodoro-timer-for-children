@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import * as line from "@line/bot-sdk";
 
 const config = {
-  channelAccessToken: process.env.NEXT_PUBLIC_LINE_ACCESS_TOKEN!,
-  channelSecret: process.env.NEXT_PUBLIC_LINE_CHANNEL_SECRET!,
+  channelAccessToken: process.env.LINE_ACCESS_TOKEN!,
+  channelSecret: process.env.LINE_CHANNEL_SECRET!,
 };
 
 const client = new line.Client(config);
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const { message } = await req.json(); // リクエストボディからメッセージを取得
     console.log("message", message);
 
-    await client.pushMessage(process.env.NEXT_PUBLIC_LINE_GROUP_ID!, {
+    await client.pushMessage(process.env.LINE_GROUP_ID!, {
       type: "text",
       text: message,
     });
