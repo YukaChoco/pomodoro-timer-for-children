@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Header from "../components/Header";
 import Timer from "../components/Timer";
 import styles from "./page.module.css";
@@ -8,6 +8,14 @@ import useAudio from "../hooks/useAudio";
 import { useSearchParams } from "next/navigation";
 
 export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
+  );
+}
+
+function HomeContent() {
   // クエリパラメーターを取得
   const searchParams = useSearchParams();
   const initialStudyMinute = parseInt(
