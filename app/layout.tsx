@@ -27,6 +27,10 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap"
           rel="stylesheet"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=M+PLUS+1p&family=M+PLUS+2:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
         {/* ogpを設定 */}
         <meta property="og:title" content="めいちゃんのためのポモドーロ" />
         <meta

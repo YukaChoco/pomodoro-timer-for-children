@@ -13,6 +13,10 @@ body {
   background: rgb(220, 240, 222);
 }
 
+main{
+  font-family: "M PLUS 2", sans-serif;
+}
+
 h1{
   font-family: "Archivo Black", sans-serif;
 }
