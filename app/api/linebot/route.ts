@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const { message } = await req.json(); // リクエストボディからメッセージを取得
     console.log("message", message);
 
-    await client.pushMessage(process.env.NEXT_PUBLIC_LINE_USER_ID!, {
+    await client.pushMessage(process.env.NEXT_PUBLIC_LINE_GROUP_ID!, {
       type: "text",
       text: message,
     });
