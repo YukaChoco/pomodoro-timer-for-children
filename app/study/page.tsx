@@ -6,6 +6,7 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import useAudio from "../hooks/useAudio";
 import { useSearchParams } from "next/navigation";
+import axios from "axios";
 
 export default function Home() {
   return (
@@ -60,13 +61,16 @@ function HomeContent() {
   }, [currentTime, isStudying]);
 
   useEffect(() => {
+    async function sendLineMessage() {
+      await axios.post("/api/linebot", {
+        message: `${initialStudyMinute}分間勉強を頑張りました！\n合計${
+          totalStudyTime + initialStudyMinute
+        }分頑張りました！`,
+      });
+    }
     if (!isStudying) {
       setTotalStudyTime((prev) => prev + initialStudyMinute);
-      console.log(
-        `${initialStudyMinute}分間勉強を頑張りました！\n合計${
-          totalStudyTime + initialStudyMinute
-        }分頑張りました！`
-      );
+      sendLineMessage();
     }
   }, [isStudying]);
 
