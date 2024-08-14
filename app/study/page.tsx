@@ -63,9 +63,9 @@ function HomeContent() {
   useEffect(() => {
     async function sendLineMessage() {
       await axios.post("/api/linebot", {
-        message: `${initialStudyMinute}分間勉強を頑張りました！\n合計${
+        message: `\nめいちゃんが ${initialStudyMinute}分間 勉強を頑張りました！\n\n今日の勉強合計時間は ${
           totalStudyTime + initialStudyMinute
-        }分頑張りました！`,
+        }分 です📚📚\n\nこの調子で頑張ってね！！！\n`,
       });
     }
     if (!isStudying) {
