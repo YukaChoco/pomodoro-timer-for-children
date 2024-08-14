@@ -106,7 +106,14 @@ export default function Home() {
             </div>
           </div>
 
-          <button type="submit" className={styles.button}>
+          <button
+            type="submit"
+            className={styles.button}
+            onClick={() => {
+              setIsTimerRunning(true);
+              setCurrentTime(initialStudyMinute * 60);
+            }}
+          >
             勉強を始める
           </button>
         </form>
