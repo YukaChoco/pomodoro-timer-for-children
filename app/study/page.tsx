@@ -29,11 +29,11 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const initialStudyMinute = parseInt(
     searchParams.get("studyMinute") as string,
-    10
+    10,
   );
   const initialBreakMinute = parseInt(
     searchParams.get("breakMinute") as string,
-    10
+    10,
   );
   // タイマーの初期値を5分に設定する
   const initialStudyTime = initialStudyMinute * 60;
@@ -44,7 +44,7 @@ function HomeContent() {
   // 無限ループになるため、最新値の参照用にrefでも保持しておく
   const totalStudyTimeRef = useRef(totalStudyTime);
   const [currentTime, setCurrentTime] = useState<number>(
-    initialStudyMinute * 60
+    initialStudyMinute * 60,
   );
   const [isStudying, setIsStudying] = useState<boolean>(true);
   // useAudioを使って音声を再生する
@@ -104,7 +104,7 @@ function HomeContent() {
       setTotalStudyTime(newTotal);
       localStorage.setItem(
         TOTAL_STUDY_TIME_STORAGE_KEY,
-        JSON.stringify({ date: getTodayKey(), minutes: newTotal })
+        JSON.stringify({ date: getTodayKey(), minutes: newTotal }),
       );
       sendLineMessage(newTotal);
     }
@@ -113,15 +113,27 @@ function HomeContent() {
   return (
     <main className={styles.main}>
       <Header />
-      <Timer currentTime={currentTime} isStudying={isStudying} />
-      {isStudying ? (
-        <div>勉強中！頑張れめいちゃん！</div>
-      ) : (
-        <div>〜休憩中〜</div>
-      )}
-      {!isStudying && (
-        <Image width={450} height={300} src="/image.png" alt="JO1の写真" />
-      )}
+      <div className={styles.content}>
+        <div className={styles.left}>
+          <Timer currentTime={currentTime} isStudying={isStudying} />
+          {isStudying ? (
+            <div>勉強中！頑張れめいちゃん！</div>
+          ) : (
+            <div>〜休憩中〜</div>
+          )}
+        </div>
+        <div className={styles.imageBox}>
+          {!isStudying && (
+            <Image
+              width={1110}
+              height={1475}
+              src="/image.jpg"
+              alt="JO1の写真"
+              className={styles.studyImage}
+            />
+          )}
+        </div>
+      </div>
     </main>
   );
 }
