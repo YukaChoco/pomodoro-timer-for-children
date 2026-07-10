@@ -1,5 +1,5 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
 import Timer from "../components/Timer";
 import styles from "./page.module.css";
@@ -7,6 +7,14 @@ import Image from "next/image";
 import useAudio from "../hooks/useAudio";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+
+const TOTAL_STUDY_TIME_STORAGE_KEY = "totalStudyTime";
+
+// ローカルストレージに保存する日付のキー（YYYY-M-D）を取得する
+function getTodayKey() {
+  const today = new Date();
+  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+}
 
 export default function Home() {
   return (
@@ -32,6 +40,9 @@ function HomeContent() {
   const initialBreakTime = initialBreakMinute * 60;
 
   const [totalStudyTime, setTotalStudyTime] = useState<number>(0);
+  // useEffectの依存配列にtotalStudyTimeを入れると更新のたびに再発火して
+  // 無限ループになるため、最新値の参照用にrefでも保持しておく
+  const totalStudyTimeRef = useRef(totalStudyTime);
   const [currentTime, setCurrentTime] = useState<number>(
     initialStudyMinute * 60
   );
@@ -58,7 +69,18 @@ function HomeContent() {
     return () => {
       clearInterval(timerId);
     };
-  }, [currentTime, isStudying]);
+  }, [currentTime, isStudying, initialBreakTime, initialStudyTime, playBell]);
+
+  // 今日すでに保存された勉強合計時間があれば復元する
+  useEffect(() => {
+    const stored = localStorage.getItem(TOTAL_STUDY_TIME_STORAGE_KEY);
+    if (!stored) return;
+    const { date, minutes } = JSON.parse(stored);
+    if (date === getTodayKey()) {
+      setTotalStudyTime(minutes);
+      totalStudyTimeRef.current = minutes;
+    }
+  }, []);
 
   // 「勉強を始める」ボタンを押して最初にこのページに来たタイミングで1回だけ応援メッセージを送る
   useEffect(() => {
@@ -71,18 +93,22 @@ function HomeContent() {
   }, []);
 
   useEffect(() => {
-    async function sendLineMessage() {
+    async function sendLineMessage(newTotal: number) {
       await axios.post("/api/linebot", {
-        message: `\nめいちゃんが ${initialStudyMinute}分間 勉強を頑張りました！\n\n今日の勉強合計時間は ${
-          totalStudyTime + initialStudyMinute
-        }分 です📚📚\n\nこの調子で頑張ってね！！！\n\n`,
+        message: `\nめいちゃんが ${initialStudyMinute}分間 勉強を頑張りました！\n\n今日の勉強合計時間は ${newTotal}分 です📚📚\n\nこの調子で頑張ってね！！！\n\n`,
       });
     }
     if (!isStudying) {
-      setTotalStudyTime((prev) => prev + initialStudyMinute);
-      sendLineMessage();
+      const newTotal = totalStudyTimeRef.current + initialStudyMinute;
+      totalStudyTimeRef.current = newTotal;
+      setTotalStudyTime(newTotal);
+      localStorage.setItem(
+        TOTAL_STUDY_TIME_STORAGE_KEY,
+        JSON.stringify({ date: getTodayKey(), minutes: newTotal })
+      );
+      sendLineMessage(newTotal);
     }
-  }, [isStudying]);
+  }, [isStudying, initialStudyMinute]);
 
   return (
     <main className={styles.main}>
