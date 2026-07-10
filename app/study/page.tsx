@@ -60,6 +60,16 @@ function HomeContent() {
     };
   }, [currentTime, isStudying]);
 
+  // 「勉強を始める」ボタンを押して最初にこのページに来たタイミングで1回だけ応援メッセージを送る
+  useEffect(() => {
+    async function sendStartMessage() {
+      await axios.post("/api/linebot", {
+        message: `\nめいちゃんが勉強をスタートしました！🔥\n\n応援してるよ〜！！頑張れー📣✨\n`,
+      });
+    }
+    sendStartMessage();
+  }, []);
+
   useEffect(() => {
     async function sendLineMessage() {
       await axios.post("/api/linebot", {

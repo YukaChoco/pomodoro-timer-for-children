@@ -11,10 +11,9 @@ const client = new line.Client(config);
 export async function POST(req: NextRequest) {
   try {
     const { message } = await req.json(); // リクエストボディからメッセージを取得
-    console.log("message", message);
 
     if (process.env.NODE_ENV !== "production") {
-      console.log("[dev] LINE通知はスキップされました:", message);
+      console.log("[dev] LINE通知はスキップされました:\n", message);
       return NextResponse.json({
         message: `(開発環境のため送信をスキップしました) ${message}`,
       });
