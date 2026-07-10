@@ -13,6 +13,13 @@ export async function POST(req: NextRequest) {
     const { message } = await req.json(); // リクエストボディからメッセージを取得
     console.log("message", message);
 
+    if (process.env.NODE_ENV !== "production") {
+      console.log("[dev] LINE通知はスキップされました:", message);
+      return NextResponse.json({
+        message: `(開発環境のため送信をスキップしました) ${message}`,
+      });
+    }
+
     await client.pushMessage(process.env.LINE_GROUP_ID!, {
       type: "text",
       text: message,
