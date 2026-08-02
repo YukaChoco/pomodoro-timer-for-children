@@ -7,6 +7,7 @@ import Image from "next/image";
 import useAudio from "../hooks/useAudio";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
+import { debugLog, debugError } from "./debugLog";
 
 const TOTAL_STUDY_TIME_STORAGE_KEY = "totalStudyTime";
 
@@ -50,10 +51,27 @@ function HomeContent() {
   // useAudioを使って音声を再生する
   const playBell = useAudio();
 
+  // デバッグ用: バックグラウンド化でタイマーが止まっているか確認するためのログ
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      debugLog(`[visibilitychange] state=${document.visibilityState}`);
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, []);
+
   // 5分カウントダウンタイマー
   useEffect(() => {
     const timerId = setInterval(() => {
+      debugLog(
+        `[tick] currentTime=${currentTime} isStudying=${isStudying} visibility=${document.visibilityState}`,
+      );
       if (currentTime <= 0) {
+        debugLog(
+          `[phase change] ${isStudying ? "study" : "break"} phase ended`,
+        );
         if (isStudying) {
           setCurrentTime(initialBreakTime);
         } else {
@@ -85,19 +103,32 @@ function HomeContent() {
   // 「勉強を始める」ボタンを押して最初にこのページに来たタイミングで1回だけ応援メッセージを送る
   useEffect(() => {
     async function sendStartMessage() {
-      await axios.post("/api/linebot", {
-        message: `\nめいちゃんが勉強をスタートしました！🔥\n\n応援してるよ〜！！頑張れー📣✨\n\n`,
-      });
+      debugLog(`[sendStartMessage] 送信開始`);
+      try {
+        const res = await axios.post("/api/linebot", {
+          message: `\nめいちゃんが勉強をスタートしました！🔥\n\n応援してるよ〜！！頑張れー📣✨\n\n`,
+        });
+        debugLog(`[sendStartMessage] 送信成功`, res.data);
+      } catch (e) {
+        debugError(`[sendStartMessage] 送信失敗`, e);
+      }
     }
     sendStartMessage();
   }, []);
 
   useEffect(() => {
     async function sendLineMessage(newTotal: number) {
-      await axios.post("/api/linebot", {
-        message: `\nめいちゃんが ${initialStudyMinute}分間 勉強を頑張りました！\n\n今日の勉強合計時間は ${newTotal}分 です📚📚\n\nこの調子で頑張ってね！！！\n\n`,
-      });
+      debugLog(`[sendLineMessage] 送信開始`);
+      try {
+        const res = await axios.post("/api/linebot", {
+          message: `\nめいちゃんが ${initialStudyMinute}分間 勉強を頑張りました！\n\n今日の勉強合計時間は ${newTotal}分 です📚📚\n\nこの調子で頑張ってね！！！\n\n`,
+        });
+        debugLog(`[sendLineMessage] 送信成功`, res.data);
+      } catch (e) {
+        debugError(`[sendLineMessage] 送信失敗`, e);
+      }
     }
+    debugLog(`[isStudying effect] isStudying=${isStudying}`);
     if (!isStudying) {
       const newTotal = totalStudyTimeRef.current + initialStudyMinute;
       totalStudyTimeRef.current = newTotal;
